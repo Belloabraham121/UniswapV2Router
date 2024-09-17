@@ -24,16 +24,7 @@ contract SimpleLudo {
     }
 
     function rollandMove() public {
-        require(msg.sender == players[currentPlayerTurn].addr, "Oga no be your turn");
-    
-        uint8 roll = uint8((uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6) + 1);
-        
-      
-        players[currentPlayerTurn].position = (players[currentPlayerTurn].position + roll) % board_size;
-    
-        
        
-        currentPlayerTurn = currentPlayerTurn == 0  1 : 0;
     }
 
     function getPlayerPosition(uint8 playerIndex) public view returns (uint8) {
