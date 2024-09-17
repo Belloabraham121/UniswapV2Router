@@ -3,17 +3,16 @@ pragma solidity ^0.8.0;
 
 contract SimpleLudo {
   
-    uint8  board_size = 52;
-    uint8  num_players = 4;
+    uint256 constant board_size = 52;
+    uint256 constant num_players = 4;
 
     struct Player {
-        address addr;
-        uint8 position;
+        address user;
+        uint256 position;
     }
 
     Player[num_players] public players;
-    uint8 public currentPlayerTurn;
-
+    uint256 public currentPlayerTurn;
 
     constructor(address player1, address player2, address player3, address player4) {
         players[0] = Player(player1, 0);
@@ -24,10 +23,16 @@ contract SimpleLudo {
     }
 
     function rollandMove() public {
-       
+        require(msg.sender == players[currentPlayerTurn].user, "Oga no be your turn");
+    
+        uint256 roll = (uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6) + 1;
+        
+        players[currentPlayerTurn].position = (players[currentPlayerTurn].position + roll) % board_size;
+    
+        currentPlayerTurn = (currentPlayerTurn + 1) % num_players;
     }
 
-    function getPlayerPosition(uint8 playerIndex) public view returns (uint8) {
+    function getPlayerPosition(uint256 playerIndex) public view returns (uint256) {
         require(playerIndex < num_players, "Player index no dey");
         return players[playerIndex].position;
     }
