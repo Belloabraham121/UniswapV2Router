@@ -23,7 +23,7 @@ contract SimpleLudo {
     }
 
     function rollandMove() public {
-        require(msg.sender != address(0), "address zero detected")
+        require(msg.sender != address(0), "address zero detected");
         require(msg.sender == players[currentPlayerTurn].user, "Oga no be your turn");
     
         uint256 roll = (uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6) + 1;
